@@ -1,9 +1,10 @@
 name: Terraform Workflow
 
 on:
-  push:
-    branches: [main]    # Trigger only when pushing to the main branch
-  pull_request:         # Also runs on PRs
+  workflow_dispatch:
+  # push:
+  #   branches: [main]    # Trigger only when pushing to the main branch
+  # pull_request:         # Also runs on PRs
 
 jobs:
   terraform:
