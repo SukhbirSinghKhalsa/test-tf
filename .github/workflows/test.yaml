@@ -1,10 +1,37 @@
-#trigger = on
+name: Terraform Workflow
+
 on:
   push:
-    branches:
-        - features/test
-env: 
-  DEFAULT_WORKING_DIRECTORY: "${configureworkingdirecotry}"
-    
+    branches: [main]    # Trigger only when pushing to the main branch
+  pull_request:         # Also runs on PRs
 
+jobs:
+  terraform:
+    name: Terraform CI
+    runs-on: ubuntu-latest   # Use latest Ubuntu runner from GitHub-hosted runners
 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3   # Checks out your repo into the runner
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3   # Sets up Terraform CLI
+        with:
+          terraform_version: 1.8.2           # Specify the Terraform version
+
+      - name: Terraform Init
+        run: terraform init                 # Initializes the Terraform project
+
+      - name: Terraform Format Check
+        run: terraform fmt -check           # Ensures code is properly formatted
+
+      - name: Terraform Validate
+        run: terraform validate             # Validates Terraform syntax
+
+      - name: Terraform Plan
+        run: terraform plan                 # Shows what will change (dry-run)
+
+      # Optional: Apply step — usually done only on main or via manual approval
+      # - name: Terraform Apply
+      #   if: github.ref == 'refs/heads/main'
+      #   run: terraform apply -auto-approve
