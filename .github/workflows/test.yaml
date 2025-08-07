@@ -1,0 +1,10 @@
+#trigger = on
+on:
+  push:
+    branches:
+        - features/test
+env: 
+  DEFAULT_WORKING_DIRECTORY: "${configureworkingdirecotry}"
+    
+
+
